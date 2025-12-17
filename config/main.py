@@ -11,11 +11,7 @@ class MainConfig:
 
     load_dotenv(dotenv_path=MAIN_ENV_PATH)
 
-    IS_DROPPED_TABLE: bool = bool(int(os.getenv("IS_DROPPED_TABLE", "0")))
-    IS_CREATED_TABLE: bool = bool(int(os.getenv("IS_CREATED_TABLE", "0")))
+    ENCODING = os.getenv("ENCODING", "utf-8")
 
-    if IS_DROPPED_TABLE is None:
-        exit("IS_DROPPED_TABLE environment variable not set")
-
-    if IS_CREATED_TABLE is None:
-        exit("IS_CREATED_TABLE environment variable not set")
+    if not ENCODING:
+        exit("Encoding environment variable not set")
