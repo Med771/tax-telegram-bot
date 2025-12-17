@@ -4,11 +4,11 @@
 
 vscode
 
+cache
+credentials.json
 .env
 
 tmp
 logs
 
 test.py
-
-cache
