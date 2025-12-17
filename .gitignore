@@ -1,0 +1,12 @@
+.venv
+.idea
+.vscode
+
+vscode
+
+.env
+
+tmp
+logs
+
+test.py
