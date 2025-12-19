@@ -7,6 +7,7 @@ class MenuLexicon:
         "<b>расчёт</b>."
     )
 
-    CALCULATE_BTN_TEXT: str = (
-        "Произвести расчёт"
-    )
+    CALCULATE_BTN_TEXT: str = "📊 Произвести расчёт"
+
+    BACK_MENU_BTN_TEXT: str = "⬅️ Вернуться в меню"
+    BACK_MENU_BTN_CALL: str = "BACK_MENU_BTN_CALL"

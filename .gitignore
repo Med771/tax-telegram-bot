@@ -4,6 +4,8 @@
 
 vscode
 
+cache
+credentials.json
 .env
 
 tmp
