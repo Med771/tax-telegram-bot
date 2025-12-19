@@ -4,10 +4,11 @@ from aiogram.types import Message
 from addons.decorator import TelegramDecorator
 from addons.lexicon import AccountantLexicon
 from addons.markup import AccountantMarkup
-from addons.state import AccountantState
-from addons.state.salary import SalaryState
+from addons.state import AccountantState, SalaryState
+
 from data.accounting import AccountingData
 from data.extract import ExtractData
+
 from tools.admin import AdminTools
 
 
@@ -130,6 +131,9 @@ class AccountantService:
 
         await state.update_data(ext=ext)
         await state.update_data(ex=message.text)
+        await state.update_data(total=total)
+
+        await state.set_state(AccountantState.RES_STATE)
 
         await message.answer(
             text= (
@@ -140,7 +144,7 @@ class AccountantService:
                     AccountantLexicon.EXTRACT_RESULT_MSG.format(extract=message.text) +
                     AccountantLexicon.TOTAL_MSG.format(total=total)
             ),
-            reply_markup=AccountantMarkup.back_markup
+            reply_markup=AccountantMarkup.res_markup
         )
 
     @classmethod
@@ -149,6 +153,28 @@ class AccountantService:
         _state = await AdminTools.get_state(state=state)
 
         if _state == SalaryState.EMPL_STATE:
+            data = await state.get_data()
+
+            await state.set_state(AccountantState.RES_STATE)
+
+            docs = data["docs"]
+            _type = data["_type"]
+            acc = data["acc"]
+            ex = data["ex"]
+            total = data["total"]
+
+            await message.answer(
+                text=(
+                        AccountantLexicon.RESULT_MSG +
+                        AccountantLexicon.DOCS_RESULT_MSG.format(docs=docs) +
+                        AccountantLexicon.TYPE_RESULT_MSG.format(type=_type) +
+                        AccountantLexicon.ACCOUNTANT_RESULT_MSG.format(accountant=acc) +
+                        AccountantLexicon.EXTRACT_RESULT_MSG.format(extract=ex) +
+                        AccountantLexicon.TOTAL_MSG.format(total=total)
+                ),
+                reply_markup=AccountantMarkup.res_markup
+            )
+        elif _state == AccountantState.RES_STATE:
             await state.set_state(AccountantState.EXTRACT_STATE)
 
             await message.answer(

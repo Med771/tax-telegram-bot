@@ -20,12 +20,13 @@ class AccountantFilter:
     async def back_filter(cls, message: Message, state: FSMContext):
         _state = await AdminTools.get_state(state)
 
-        is_ex = message.text == AccountantLexicon.BACK_TO_EXTRACT_COUNTER_BTN_TEXT and _state == SalaryState.EMPL_STATE
+        is_empl = message.text == AccountantLexicon.BACK_TO_RES_BTN_TEXT and _state == SalaryState.EMPL_STATE
+        is_ex = message.text == AccountantLexicon.BACK_TO_EXTRACT_COUNTER_BTN_TEXT and _state == AccountantState.RES_STATE
         is_acc = message.text == AccountantLexicon.BACK_TO_ACCOUNTANT_BTN_TEXT and _state == AccountantState.EXTRACT_STATE
         is_type = message.text == AccountantLexicon.BACK_TO_TYPE_BTN_TEXT and _state == AccountantState.ACCOUNT_STATE
         is_docs = message.text == AccountantLexicon.BACK_TO_DOCS_BTN_TEXT and _state == AccountantState.TYPE_STATE
 
-        return is_ex or is_acc or is_type or is_docs
+        return is_empl or is_ex or is_acc or is_type or is_docs
 
     @classmethod
     @TelegramDecorator.log_call()
@@ -61,7 +62,7 @@ class AccountantFilter:
             return False
 
         if not is_type:
-            await message.answer(text=AccountantLexicon.TYPE_ERROR_MSG, reply_markup=await AccountantMarkup.get_types)
+            await message.answer(text=AccountantLexicon.TYPE_ERROR_MSG, reply_markup=await AccountantMarkup.get_types())
 
             return False
 

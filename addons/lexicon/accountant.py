@@ -6,6 +6,8 @@ class AccountantLexicon:
 
     TOTAL_MSG: str = "\n💰 <b> Итого:</b> {total}"
 
+    BACK_TO_RES_BTN_TEXT: str = "⬅️ Вернуться к бух. сопровождению"
+
     DOCS_COUNTER_MSG: str = "📄 <b>Укажите количество документов</b>, которые необходимо учитывать при расчёте.\n\n"
     DOCS_ERROR_MSG: str = "⚠️ <b>Ошибка:</b> введите корректное <b>числовое значение</b> количества документов."
     DOCS_RESULT_MSG: str = "📄 <b>Количество документов:</b> {docs}\n"
@@ -19,7 +21,7 @@ class AccountantLexicon:
     ACCOUNTANT_RESULT_MSG: str = "👤 <b>Услуги главного бухгалтера:</b> {accountant}\n"
 
     EXTRACT_COUNTER_MSG: str = "🧾 <b>Укажите количество банковских выписок</b>.\n\n"
-    EXTRACT_ERROR_MSG: str = ""
+    EXTRACT_ERROR_MSG: str = "⚠️ <b>Ошибка:</b> пожалуйста, выберите <b>один из предложенных вариантов</b> количества выписок."
     EXTRACT_RESULT_MSG: str = "🧾 <b>Количество выписок:</b> {extract}\n\n"
 
     YES_ACCOUNTANT_BTN_TEXT: str = "✅ Да"
@@ -31,13 +33,10 @@ class AccountantLexicon:
     )
 
     BACK_TO_DOCS_BTN_TEXT: str = "⬅️ К количеству документов"
-    BACK_TO_DOCS_BTN_CALL: str = "BACK_TO_DOCS_BTN_CALL"
 
     BACK_TO_TYPE_BTN_TEXT: str = "⬅️ К типу налогообложения"
-    BACK_TO_TYPE_BTN_CALL: str = "BACK_TO_TYPE_BTN_CALL"
 
     BACK_TO_ACCOUNTANT_BTN_TEXT: str = "⬅️ К выбору главного бухгалтера"
-    BACK_TO_ACCOUNTANT_BTN_CALL: str = "BACK_TO_ACCOUNTANT_BTN_CALL"
 
     BACK_TO_EXTRACT_COUNTER_BTN_TEXT: str = "⬅️ К количеству выписок"
-    BACK_TO_EXTRACT_COUNTER_BTN_CALL: str = "BACK_TO_EXTRACT_COUNTER_BTN_CALL"
+
