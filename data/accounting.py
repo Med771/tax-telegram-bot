@@ -16,6 +16,22 @@ async def update_accounting():
 
 class AccountingData:
     @classmethod
+    async def get_types(cls):
+        data = await AccountingData.read_data_in_cache()
+
+        return [accountant["type"] for accountant in data]
+
+    @classmethod
+    async def get_data_by_type(cls, _type: str) -> dict | None:
+        data: list[dict] = await AccountingData.read_data_in_cache()
+
+        for value in data:
+            if value["type"] == _type:
+                return value
+
+        return None
+
+    @classmethod
     def create_obj(cls, _type: str, account: int, amounts: list[tuple[int, int]]) -> dict:
         return {"type": _type, "account": account, "amounts": [{"cnt": pair[0], "price": pair[1]} for pair in amounts]}
 

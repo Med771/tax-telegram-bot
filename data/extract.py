@@ -15,6 +15,22 @@ async def update_extract():
 
 class ExtractData:
     @classmethod
+    async def get_extracts(cls):
+        data = await ExtractData.read_data_in_cache()
+
+        return [val["cnt"] for val in data]
+
+    @classmethod
+    async def get_data_by_cnt(cls, cnt: int):
+        data = await ExtractData.read_data_in_cache()
+
+        for row in data:
+            if row["cnt"] == cnt:
+                return row
+
+        return None
+
+    @classmethod
     def create_obj(cls, cnt: int, price: int) -> dict[str, int]:
         return {"cnt": cnt, "price": price}
 
