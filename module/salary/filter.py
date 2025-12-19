@@ -11,6 +11,16 @@ from tools.admin import AdminTools
 class SalaryFilter:
     @classmethod
     @TelegramDecorator.log_call()
+    async def back_filter(cls, message: Message, state: FSMContext):
+        _state = await AdminTools.get_state(state)
+
+        is_empl = message.text == SalaryLexicon.BACK_TO_EMPL_BTN_TEXT and SalaryState.WHITE_STATE == _state
+        is_white = message.text == SalaryLexicon.BACK_TO_TYPE_BTN_TEXT and SalaryState.RESULT_STATE == _state
+
+        return is_empl or is_white
+
+    @classmethod
+    @TelegramDecorator.log_call()
     async def salary_filter(cls, message: Message, state: FSMContext):
         is_btn = message.text == SalaryLexicon.SALARY_BTN_TEXT
         is_state = await AdminTools.get_state(state=state) == AccountantState.RES_STATE

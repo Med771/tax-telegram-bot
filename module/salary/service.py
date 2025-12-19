@@ -7,9 +7,33 @@ from addons.markup import SalaryMarkup
 from addons.state import SalaryState
 from data.with_salary import WithData
 from data.without_salary import WithoutData
+from tools.admin import AdminTools
 
 
 class SalaryService:
+    @classmethod
+    @TelegramDecorator.log_call()
+    async def back_btn(cls, message: Message, state: FSMContext):
+        _state = await AdminTools.get_state(state=state)
+
+        if _state == SalaryState.RESULT_STATE:
+            await state.set_state(SalaryState.WHITE_STATE)
+
+            await message.answer(
+                text=(
+                        SalaryLexicon.EMPL_MSG +
+                        SalaryLexicon.EMPL_RESULT_MSG.format(empl=message.text)
+                ),
+                reply_markup=SalaryMarkup.type_markup
+            )
+        elif _state == SalaryState.WHITE_STATE:
+            await state.set_state(SalaryState.EMPL_STATE)
+
+            await message.answer(
+                text=SalaryLexicon.EMPL_MSG,
+                reply_markup=SalaryMarkup.empl_markup
+            )
+
     @classmethod
     @TelegramDecorator.log_call()
     async def salary_btn(cls, message: Message, state: FSMContext):
