@@ -68,7 +68,7 @@ class AccountantMarkup:
         for account in data:
             keyboard.append([KeyboardButton(text="До " + str(account))])
 
-        keyboard.append([BACK_TO_ACCOUNTANT_BTN])
+        keyboard.append([BACK_TO_TYPE_BTN])
         keyboard.append([BACK_TO_MENU_BTN])
 
         return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
