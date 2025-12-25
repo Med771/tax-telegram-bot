@@ -4,7 +4,7 @@ class AccountantLexicon:
         "<b>Указанные параметры:</b>\n"
     )
 
-    TOTAL_MSG: str = "💰 <b> Итого:</b> {total}"
+    TOTAL_MSG: str = "\n💰 <b> Итого:</b> {total}"
 
     BACK_TO_RES_BTN_TEXT: str = "⬅️ Вернуться к бух. сопровождению"
 
