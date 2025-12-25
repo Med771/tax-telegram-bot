@@ -18,6 +18,9 @@ class CacheConfig:
     ACCOUNTING_RANGE_STR: str = os.getenv("ACCOUNTING_RANGE")
     EXTRACT_RANGE_STR: str = os.getenv("EXTRACT_RANGE")
 
+    FIRST_PHOTO_PATH: str = os.getenv("FIRST_PHOTO_PATH")
+    SECOND_PHOTO_PATH: str = os.getenv("SECOND_PHOTO_PATH")
+
     if not CACHE_FOLDER_NAME:
         exit("Cache folder name environment variable not set")
 
@@ -29,6 +32,12 @@ class CacheConfig:
 
     if not ACCOUNTING_FILE_NAME:
         exit("Accounting name environment variable not set")
+
+    if not FIRST_PHOTO_PATH:
+        exit("First photo path environment variable not set")
+
+    if not SECOND_PHOTO_PATH:
+        exit("Second photo path environment variable not set")
 
     CACHE_PATH = MainConfig.MAIN_PATH.joinpath(CACHE_FOLDER_NAME)
 
