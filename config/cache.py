@@ -10,15 +10,13 @@ class CacheConfig:
 
     CACHE_FOLDER_NAME: str = os.getenv("CACHE_FOLDER_NAME")
 
-    EXTRACT_FILE_NAME: str = os.getenv("EXTRACT_FILE_NAME")
-    WITHOUT_SALARY_FILE_NAME: str = os.getenv("WITHOUT_SALARY_FILE_NAME")
-    WITH_SALARY_FILE_NAME: str = os.getenv("WITH_SALARY_FILE_NAME")
+    SALARY_FILE_NAME: str = os.getenv("SALARY_FILE_NAME")
     ACCOUNTING_FILE_NAME: str = os.getenv("ACCOUNTING_FILE_NAME")
+    EXTRACT_FILE_NAME: str = os.getenv("EXTRACT_FILE_NAME")
 
-    EXTRACT_RANGE: str = os.getenv("EXTRACT_RANGE")
-    WITHOUT_RANGE: str = os.getenv("WITHOUT_RANGE")
-    WITH_RANGE: str = os.getenv("WITH_RANGE")
-    ACCOUNTING_RANGE: str = os.getenv("ACCOUNTING_RANGE")
+    SALARY_RANGE_STR: str = os.getenv("SALARY_RANGE")
+    ACCOUNTING_RANGE_STR: str = os.getenv("ACCOUNTING_RANGE")
+    EXTRACT_RANGE_STR: str = os.getenv("EXTRACT_RANGE")
 
     if not CACHE_FOLDER_NAME:
         exit("Cache folder name environment variable not set")
@@ -26,11 +24,8 @@ class CacheConfig:
     if not EXTRACT_FILE_NAME:
         exit("Extract file name environment variable not set")
 
-    if not WITHOUT_SALARY_FILE_NAME:
-        exit("Without salary name environment variable not set")
-
-    if not WITH_SALARY_FILE_NAME:
-        exit("With salary name environment variable not set")
+    if not SALARY_FILE_NAME:
+        exit("Salary name environment variable not set")
 
     if not ACCOUNTING_FILE_NAME:
         exit("Accounting name environment variable not set")
@@ -41,42 +36,32 @@ class CacheConfig:
         CACHE_PATH.mkdir(parents=True)
 
     EXTRACT_PATH = CACHE_PATH.joinpath(EXTRACT_FILE_NAME)
-    WITHOUT_PATH = CACHE_PATH.joinpath(WITHOUT_SALARY_FILE_NAME)
-    WITH_PATH = CACHE_PATH.joinpath(WITH_SALARY_FILE_NAME)
+    SALARY_PATH = CACHE_PATH.joinpath(SALARY_FILE_NAME)
     ACCOUNTING_PATH = CACHE_PATH.joinpath(ACCOUNTING_FILE_NAME)
 
     try:
-        _arr: list[str] = EXTRACT_RANGE.split(':')
+        _arr: list[str] = SALARY_RANGE_STR.split(':')
+        salary_cols = int(_arr[0].split("-")[0]), int(_arr[0].split("-")[1])
+        salary_rows = int(_arr[1].split("-")[0]), int(_arr[1].split("-")[1])
+
+        SALARY_RANGE = (salary_cols[0], salary_cols[1], salary_rows[0], salary_rows[1])
+    except TypeError:
+        exit("Salary range environment variable not set")
+
+    try:
+        _arr: list[str] = ACCOUNTING_RANGE_STR.split(':')
+        account_cols = int(_arr[0].split("-")[0]), int(_arr[0].split("-")[1])
+        account_rows = int(_arr[1].split("-")[0]), int(_arr[1].split("-")[1])
+
+        ACCOUNTING_RANGE = (account_cols[0], account_cols[1], account_rows[0], account_rows[1])
+    except TypeError:
+        exit("Accounting range environment variable not set")
+
+    try:
+        _arr: list[str] = EXTRACT_RANGE_STR.split(':')
         extract_cols = int(_arr[0].split("-")[0]), int(_arr[0].split("-")[1])
         extract_rows = int(_arr[1].split("-")[0]), int(_arr[1].split("-")[1])
 
-        EXTRACT_RANGE_TUP = (extract_cols[0], extract_cols[1], extract_rows[0], extract_rows[1])
-    except ValueError:
-        exit("Invalid extract range")
-
-    try:
-        _arr: list[str] = WITHOUT_RANGE.split(':')
-        without_cols = int(_arr[0].split("-")[0]), int(_arr[0].split("-")[1])
-        without_rows = int(_arr[1].split("-")[0]), int(_arr[1].split("-")[1])
-
-        WITHOUT_RANGE_TUP = (without_cols[0], without_cols[1], without_rows[0], without_rows[1])
-    except ValueError:
-        exit("Invalid without range")
-
-    try:
-        _arr: list[str] = WITH_RANGE.split(':')
-        with_cols = int(_arr[0].split("-")[0]), int(_arr[0].split("-")[1])
-        with_rows = int(_arr[1].split("-")[0]), int(_arr[1].split("-")[1])
-
-        WITH_RANGE_TUP = (with_cols[0], with_cols[1], with_rows[0], with_rows[1])
-    except ValueError:
-        exit("Invalid with range")
-
-    try:
-        _arr: list[str] = ACCOUNTING_RANGE.split(':')
-        accounting_cols = int(_arr[0].split("-")[0]), int(_arr[0].split("-")[1])
-        accounting_rows = int(_arr[1].split("-")[0]), int(_arr[1].split("-")[1])
-
-        ACCOUNTING_RANGE_TUP = (accounting_cols[0], accounting_cols[1], accounting_rows[0], accounting_rows[1])
-    except ValueError:
-        exit("Invalid accounting range")
+        EXTRACT_RANGE = (extract_cols[0], extract_cols[1], extract_rows[0], extract_rows[1])
+    except TypeError:
+        exit("Extract range environment variable not set")

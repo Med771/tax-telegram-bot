@@ -4,7 +4,7 @@ from aiogram.types import Message
 from addons.decorator import TelegramDecorator
 from addons.lexicon import AccountantLexicon
 from addons.markup import AccountantMarkup
-from addons.state import AccountantState, SalaryState
+from addons.state import AccountantState
 
 from data.accounting import AccountingData
 from data.extract import ExtractData
@@ -152,29 +152,7 @@ class AccountantService:
     async def back_btn(cls, message: Message, state: FSMContext):
         _state = await AdminTools.get_state(state=state)
 
-        if _state == SalaryState.EMPL_STATE:
-            data = await state.get_data()
-
-            await state.set_state(AccountantState.RES_STATE)
-
-            docs = data["docs"]
-            _type = data["_type"]
-            acc = data["acc"]
-            ex = data["ex"]
-            total = data["total"]
-
-            await message.answer(
-                text=(
-                        AccountantLexicon.RESULT_MSG +
-                        AccountantLexicon.DOCS_RESULT_MSG.format(docs=docs) +
-                        AccountantLexicon.TYPE_RESULT_MSG.format(type=_type) +
-                        AccountantLexicon.ACCOUNTANT_RESULT_MSG.format(accountant=acc) +
-                        AccountantLexicon.EXTRACT_RESULT_MSG.format(extract=ex) +
-                        AccountantLexicon.TOTAL_MSG.format(total=total)
-                ),
-                reply_markup=AccountantMarkup.res_markup
-            )
-        elif _state == AccountantState.RES_STATE:
+        if _state == AccountantState.RES_STATE:
             await state.set_state(AccountantState.EXTRACT_STATE)
 
             await message.answer(

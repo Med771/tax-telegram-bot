@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from addons.decorator import TelegramDecorator
-from addons.lexicon import MenuLexicon, AccountantLexicon, SalaryLexicon
+from addons.lexicon import MenuLexicon, AccountantLexicon
 
 from data.accounting import AccountingData
 from data.extract import ExtractData
@@ -24,10 +24,6 @@ YES_ACCOUNTANT_BTN = KeyboardButton(
 NO_ACCOUNTANT_BTN = KeyboardButton(
     text=AccountantLexicon.NO_ACCOUNTANT_BTN_TEXT)
 
-SALARY_BTN = KeyboardButton(
-    text=SalaryLexicon.SALARY_BTN_TEXT
-)
-
 BACK_TO_MENU_MARKUP = ReplyKeyboardMarkup(
     keyboard=[[BACK_TO_MENU_BTN]],
     resize_keyboard=True)
@@ -37,7 +33,7 @@ ACCOUNTANT_MARKUP = ReplyKeyboardMarkup(
     resize_keyboard=True)
 
 RES_MARKUP = ReplyKeyboardMarkup(
-    keyboard=[[SALARY_BTN], [BACK_TO_EXTRACT_COUNTER_BTN], [BACK_TO_MENU_BTN]],
+    keyboard=[[BACK_TO_EXTRACT_COUNTER_BTN], [BACK_TO_MENU_BTN]],
     resize_keyboard=True
 )
 

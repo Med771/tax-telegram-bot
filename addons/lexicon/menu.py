@@ -8,6 +8,8 @@ class MenuLexicon:
     )
 
     CALCULATE_BTN_TEXT: str = "📊 Произвести расчёт"
+    SALARY_BTN_TEXT: str = "🧑🏻‍💼 Рассчитать кадровый учёт"
+    ADDONS_BTN_TEXT: str = "📘 Дополнительные услуги"
 
     BACK_MENU_BTN_TEXT: str = "⬅️ Вернуться в меню"
     BACK_MENU_BTN_CALL: str = "BACK_MENU_BTN_CALL"
