@@ -61,7 +61,7 @@ class AccountantService:
 
         total = accountant + (((docs + 99) // 100) - 1) * price
 
-        await state.set_state(AccountantState.EXTRACT_STATE)
+        await state.set_state(AccountantState.RES_STATE)
 
         await message.answer(
             text=(
