@@ -2,9 +2,9 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from addons.decorator import TelegramDecorator
-from addons.lexicon import SalaryLexicon
+from addons.lexicon import SalaryLexicon, MenuLexicon
 from addons.markup import SalaryMarkup
-from addons.state import AccountantState, SalaryState
+from addons.state import SalaryState
 from tools.admin import AdminTools
 
 
@@ -22,10 +22,9 @@ class SalaryFilter:
     @classmethod
     @TelegramDecorator.log_call()
     async def salary_filter(cls, message: Message, state: FSMContext):
-        is_btn = message.text == SalaryLexicon.SALARY_BTN_TEXT
-        is_state = await AdminTools.get_state(state=state) == AccountantState.RES_STATE
+        is_btn = message.text == MenuLexicon.SALARY_BTN_TEXT
 
-        return is_btn and is_state
+        return is_btn
 
     @classmethod
     @TelegramDecorator.log_call()

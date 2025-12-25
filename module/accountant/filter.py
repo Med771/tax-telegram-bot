@@ -22,11 +22,11 @@ class AccountantFilter:
 
         is_empl = message.text == AccountantLexicon.BACK_TO_RES_BTN_TEXT and _state == SalaryState.EMPL_STATE
         is_ex = message.text == AccountantLexicon.BACK_TO_EXTRACT_COUNTER_BTN_TEXT and _state == AccountantState.RES_STATE
-        is_acc = message.text == AccountantLexicon.BACK_TO_ACCOUNTANT_BTN_TEXT and _state == AccountantState.EXTRACT_STATE
-        is_type = message.text == AccountantLexicon.BACK_TO_TYPE_BTN_TEXT and _state == AccountantState.ACCOUNT_STATE
+        # is_acc = message.text == AccountantLexicon.BACK_TO_ACCOUNTANT_BTN_TEXT and _state == AccountantState.EXTRACT_STATE
+        is_type = message.text == AccountantLexicon.BACK_TO_TYPE_BTN_TEXT and _state == AccountantState.EXTRACT_STATE
         is_docs = message.text == AccountantLexicon.BACK_TO_DOCS_BTN_TEXT and _state == AccountantState.TYPE_STATE
 
-        return is_empl or is_ex or is_acc or is_type or is_docs
+        return is_empl or is_ex or is_type or is_docs
 
     @classmethod
     @TelegramDecorator.log_call()
@@ -42,7 +42,7 @@ class AccountantFilter:
         if not is_state:
             return False
 
-        if not is_dig:
+        if not is_dig or int(message.text) < 200 or int(message.text) > 2000:
             await message.answer(text=AccountantLexicon.DOCS_ERROR_MSG, reply_markup=AccountantMarkup.back_markup)
 
             return False
@@ -68,24 +68,24 @@ class AccountantFilter:
 
         return True
 
-    @classmethod
-    @TelegramDecorator.log_call()
-    async def account_filter(cls, message: Message, state: FSMContext):
-        is_account = message.text in AccountantLexicon.ACCOUNTANT_TUP
-        is_state = await AdminTools.get_state(state) == AccountantState.ACCOUNT_STATE
-
-        if not is_state:
-            return False
-
-        if message.text == AccountantLexicon.BACK_TO_TYPE_BTN_TEXT:
-            return False
-
-        if not is_account:
-            await message.answer(text=AccountantLexicon.ACCOUNTANT_ERROR_MSG, reply_markup=AccountantMarkup.account_markup)
-
-            return False
-
-        return True
+    # @classmethod
+    # @TelegramDecorator.log_call()
+    # async def account_filter(cls, message: Message, state: FSMContext):
+    #     is_account = message.text in AccountantLexicon.ACCOUNTANT_TUP
+    #     is_state = await AdminTools.get_state(state) == AccountantState.ACCOUNT_STATE
+    #
+    #     if not is_state:
+    #         return False
+    #
+    #     if message.text == AccountantLexicon.BACK_TO_TYPE_BTN_TEXT:
+    #         return False
+    #
+    #     if not is_account:
+    #         await message.answer(text=AccountantLexicon.ACCOUNTANT_ERROR_MSG, reply_markup=AccountantMarkup.account_markup)
+    #
+    #         return False
+    #
+    #     return True
 
     @classmethod
     @TelegramDecorator.log_call()

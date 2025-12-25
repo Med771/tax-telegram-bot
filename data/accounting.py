@@ -1,29 +1,17 @@
 from config import CacheConfig
-from config import GoogleConfig
-
-from tools.google import GoogleTools
 from tools.file import FileTools
-
-
-async def update_accounting():
-    try:
-        new_data_in_table: list[dict] = AccountingData.read_data_in_table()
-
-        await AccountingData.update_data_in_cache(new_data_in_table)
-    except:
-        pass
 
 
 class AccountingData:
     @classmethod
     async def get_types(cls):
-        data = await AccountingData.read_data_in_cache()
+        data = await AccountingData.read_json_async()
 
         return [accountant["type"] for accountant in data]
 
     @classmethod
     async def get_data_by_type(cls, _type: str) -> dict | None:
-        data: list[dict] = await AccountingData.read_data_in_cache()
+        data: list[dict] = await AccountingData.read_json_async()
 
         for value in data:
             if value["type"] == _type:
@@ -32,35 +20,21 @@ class AccountingData:
         return None
 
     @classmethod
-    def create_obj(cls, _type: str, account: int, amounts: list[tuple[int, int]]) -> dict:
-        return {"type": _type, "account": account, "amounts": [{"cnt": pair[0], "price": pair[1]} for pair in amounts]}
+    async def update_data_async(cls, data: list[list]):
+        _arr = []
+
+        for row in data:
+            _arr.append({
+                "type": row[0],
+                "accountant": int(row[1]),
+                "200-500": int(row[3]),
+                "500-1000": int(row[4]),
+                "1000-1500": int(row[5]),
+                "1500-2000": int(row[6]),
+            })
+
+        await FileTools.write_json_async(path=CacheConfig.ACCOUNTING_PATH, data=_arr)
 
     @classmethod
-    def read_data_in_table(cls) -> list[dict]:
-        rows = GoogleTools.read_values(
-            ws=GoogleConfig.WS,
-            start_col=CacheConfig.ACCOUNTING_RANGE_TUP[0], end_col=CacheConfig.ACCOUNTING_RANGE_TUP[1],
-            start_row=CacheConfig.ACCOUNTING_RANGE_TUP[2], end_row=CacheConfig.ACCOUNTING_RANGE_TUP[3])
-
-        res = []
-        cnt = rows[0][3:]
-
-        for row in rows[1:]:
-            amounts = []
-
-            for i in range(3, len(row)):
-                amounts.append((cnt[i - 3], row[i]))
-
-            obj = cls.create_obj(row[0], int(row[1]), amounts)
-
-            res.append(obj)
-
-        return res
-
-    @classmethod
-    async def update_data_in_cache(cls, new_data: list[dict]):
-        await FileTools.write_json_async(path=CacheConfig.ACCOUNTING_PATH, data=new_data)
-
-    @classmethod
-    async def read_data_in_cache(cls):
+    async def read_json_async(cls):
         return await FileTools.read_json_async(path=CacheConfig.ACCOUNTING_PATH)
