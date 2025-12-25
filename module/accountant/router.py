@@ -28,13 +28,3 @@ async def docs_msg(message: Message, state: FSMContext):
 @accountant_router.message(AccountantFilter.type_filter)
 async def type_btn(message: Message, state: FSMContext):
     await AccountantService.type_btn(message=message, state=state)
-
-
-# @accountant_router.message(AccountantFilter.account_filter)
-# async def account_btn(message: Message, state: FSMContext):
-#     await AccountantService.account_btn(message=message, state=state)
-
-
-@accountant_router.message(AccountantFilter.extract_filter)
-async def extract_btn(message: Message, state: FSMContext):
-    await AccountantService.extract_btn(message=message, state=state)

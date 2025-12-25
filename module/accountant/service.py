@@ -7,7 +7,6 @@ from addons.markup import AccountantMarkup
 from addons.state import AccountantState
 
 from data.accounting import AccountingData
-from data.extract import ExtractData
 
 from tools.admin import AdminTools
 
@@ -62,74 +61,13 @@ class AccountantService:
 
         total = accountant + (((docs + 99) // 100) - 1) * price
 
-        await state.update_data(_type=message.text)
-        await state.update_data(docs_sum=total)
-
         await state.set_state(AccountantState.EXTRACT_STATE)
 
         await message.answer(
             text=(
-            AccountantLexicon.EXTRACT_COUNTER_MSG +
                     AccountantLexicon.RESULT_MSG +
                     AccountantLexicon.DOCS_RESULT_MSG.format(docs=docs) +
                     AccountantLexicon.TYPE_RESULT_MSG.format(type=message.text) +
-                    AccountantLexicon.TOTAL_MSG.format(total=total)),
-            reply_markup=await AccountantMarkup.get_extracts())
-
-    # @classmethod
-    # @TelegramDecorator.log_call()
-    # async def account_btn(cls, message: Message, state: FSMContext):
-    #     data = await state.get_data()
-    #
-    #     docs_sum = data["docs_sum"]
-    #     _type = data["_type"]
-    #     account = data["account"]
-    #
-    #     total = docs_sum
-    #
-    #     if message.text == AccountantLexicon.YES_ACCOUNTANT_BTN_TEXT:
-    #         total += account
-    #
-    #         await state.update_data(is_acc=True)
-    #         await state.update_data(total=total)
-    #
-    #     await state.update_data(acc=message.text)
-    #
-    #     await state.set_state(AccountantState.EXTRACT_STATE)
-    #
-    #     await message.answer(
-    #         text=(
-    #                 AccountantLexicon.EXTRACT_COUNTER_MSG +
-    #                 AccountantLexicon.RESULT_MSG +
-    #                 AccountantLexicon.DOCS_RESULT_MSG.format(docs=data["docs"]) +
-    #                 AccountantLexicon.TYPE_RESULT_MSG.format(type=_type) +
-    #                 AccountantLexicon.ACCOUNTANT_RESULT_MSG.format(accountant=message.text) +
-    #                 AccountantLexicon.TOTAL_MSG.format(total=total)
-    #         ),
-    #         reply_markup=await AccountantMarkup.get_extracts()
-    #     )
-
-    @classmethod
-    @TelegramDecorator.log_call()
-    async def extract_btn(cls, message: Message, state: FSMContext):
-        data = await state.get_data()
-        extract = await ExtractData.get_data_by_cnt(int(message.text.split()[1]))
-
-        docs = data["docs"]
-        docs_sum = data["docs_sum"]
-        _type = data["_type"]
-        ext = extract["price"]
-
-        total = docs_sum + ext
-
-        await state.set_state(AccountantState.RES_STATE)
-
-        await message.answer(
-            text= (
-                    AccountantLexicon.RESULT_MSG +
-                    AccountantLexicon.DOCS_RESULT_MSG.format(docs=docs) +
-                    AccountantLexicon.TYPE_RESULT_MSG.format(type=_type) +
-                    AccountantLexicon.EXTRACT_RESULT_MSG.format(extract=message.text) +
                     AccountantLexicon.TOTAL_MSG.format(total=total)),
             reply_markup=AccountantMarkup.res_markup)
 
@@ -139,12 +77,6 @@ class AccountantService:
         _state = await AdminTools.get_state(state=state)
 
         if _state == AccountantState.RES_STATE:
-            await state.set_state(AccountantState.EXTRACT_STATE)
-
-            await message.answer(
-                text=AccountantLexicon.EXTRACT_COUNTER_MSG,
-                reply_markup=await AccountantMarkup.get_extracts())
-        elif _state == AccountantState.EXTRACT_STATE:
             await state.set_state(AccountantState.TYPE_STATE)
 
             await message.answer(

@@ -12,20 +12,15 @@ class CacheConfig:
 
     SALARY_FILE_NAME: str = os.getenv("SALARY_FILE_NAME")
     ACCOUNTING_FILE_NAME: str = os.getenv("ACCOUNTING_FILE_NAME")
-    EXTRACT_FILE_NAME: str = os.getenv("EXTRACT_FILE_NAME")
 
     SALARY_RANGE_STR: str = os.getenv("SALARY_RANGE")
     ACCOUNTING_RANGE_STR: str = os.getenv("ACCOUNTING_RANGE")
-    EXTRACT_RANGE_STR: str = os.getenv("EXTRACT_RANGE")
 
     FIRST_PHOTO_PATH: str = os.getenv("FIRST_PHOTO_PATH")
     SECOND_PHOTO_PATH: str = os.getenv("SECOND_PHOTO_PATH")
 
     if not CACHE_FOLDER_NAME:
         exit("Cache folder name environment variable not set")
-
-    if not EXTRACT_FILE_NAME:
-        exit("Extract file name environment variable not set")
 
     if not SALARY_FILE_NAME:
         exit("Salary name environment variable not set")
@@ -44,7 +39,6 @@ class CacheConfig:
     if not CACHE_PATH.exists():
         CACHE_PATH.mkdir(parents=True)
 
-    EXTRACT_PATH = CACHE_PATH.joinpath(EXTRACT_FILE_NAME)
     SALARY_PATH = CACHE_PATH.joinpath(SALARY_FILE_NAME)
     ACCOUNTING_PATH = CACHE_PATH.joinpath(ACCOUNTING_FILE_NAME)
 
@@ -65,12 +59,3 @@ class CacheConfig:
         ACCOUNTING_RANGE = (account_cols[0], account_cols[1], account_rows[0], account_rows[1])
     except TypeError:
         exit("Accounting range environment variable not set")
-
-    try:
-        _arr: list[str] = EXTRACT_RANGE_STR.split(':')
-        extract_cols = int(_arr[0].split("-")[0]), int(_arr[0].split("-")[1])
-        extract_rows = int(_arr[1].split("-")[0]), int(_arr[1].split("-")[1])
-
-        EXTRACT_RANGE = (extract_cols[0], extract_cols[1], extract_rows[0], extract_rows[1])
-    except TypeError:
-        exit("Extract range environment variable not set")

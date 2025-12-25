@@ -23,14 +23,6 @@ class AccountantLexicon:
     TYPE_ERROR_MSG: str = "⚠️ <b>Ошибка:</b> пожалуйста, выберите <b>один из предложенных типов</b> налогообложения."
     TYPE_RESULT_MSG: str = "💼 <b>Тип налогообложения:</b> {type}\n"
 
-    # ACCOUNTANT_MSG: str = "👤 <b>Требуются ли услуги главного бухгалтера?</b>\n\n"
-    # ACCOUNTANT_ERROR_MSG: str = "⚠️ <b>Ошибка:</b> пожалуйста, укажите, <b>нужны ли вам услуги главного бухгалтера</b>."
-    # ACCOUNTANT_RESULT_MSG: str = "👤 <b>Услуги главного бухгалтера:</b> {accountant}\n"
-
-    EXTRACT_COUNTER_MSG: str = "🧾 <b>Укажите количество банковских выписок</b>.\n\n"
-    EXTRACT_ERROR_MSG: str = "⚠️ <b>Ошибка:</b> пожалуйста, выберите <b>один из предложенных вариантов</b> количества выписок."
-    EXTRACT_RESULT_MSG: str = "🧾 <b>Количество выписок:</b> {extract}\n\n"
-
     YES_ACCOUNTANT_BTN_TEXT: str = "✅ Да"
     NO_ACCOUNTANT_BTN_TEXT: str = "❌ Нет"
 

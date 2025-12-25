@@ -5,14 +5,12 @@ from tools.google import GoogleTools
 
 from data.salary import SalaryData
 from data.accounting import AccountingData
-from data.extract import ExtractData
 
 
 class CacheData:
     @classmethod
     async def get_data(cls):
         await cls.salary_data()
-        await cls.extract_data()
         await cls.accounting_data()
 
     @classmethod
@@ -43,15 +41,3 @@ class CacheData:
         )
 
         await AccountingData.update_data_async(data=data)
-
-    @classmethod
-    async def extract_data(cls):
-        data = GoogleTools.read_values(
-            ws=GoogleConfig.WS,
-            start_col=CacheConfig.EXTRACT_RANGE[0],
-            end_col=CacheConfig.EXTRACT_RANGE[1],
-            start_row=CacheConfig.EXTRACT_RANGE[2],
-            end_row=CacheConfig.EXTRACT_RANGE[3],
-        )
-
-        await ExtractData.update_data_async(new_data=data)
