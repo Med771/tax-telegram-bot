@@ -22,7 +22,7 @@ logger = LoggerTools.get_logger(name=__name__, info=True, error=True, critical=T
 async def main():
     SCHEDULER.add_job(
         func=CacheData.get_data,
-        trigger=IntervalTrigger(seconds=7),
+        trigger=IntervalTrigger(seconds=15),
         id='update_extract',
         misfire_grace_time=60)
 
